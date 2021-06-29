@@ -1,0 +1,45 @@
+<html lang="en">
+<%- include("./partials/head.ejs") %>
+
+<body>
+  <%- include("./partials/nav.ejs") %>
+
+  <div class="details content">
+    <h2><%= blog.title %></h2>
+    <div class="content">
+      <p><%= blog.body %></p>
+    </div>
+    <a class="delete" data-doc="<%= blog._id %>">Delete</a>
+    <a class="update"href="<%=`/blogs/update/${blog._id}`%>">Update</a> 
+  </div>
+
+  <%- include("./partials/footer.ejs") %>
+
+  <script>
+    const trashcan = document.querySelector('a.delete');
+    trashcan.addEventListener('click', (e) => {
+      const endpoint = `/blogs/${trashcan.dataset.doc}`;
+      fetch(endpoint, { //delete request
+        method: 'DELETE',
+      })
+      .then(response => response.json())
+      .then(data => window.location.href = data.redirect)
+      .catch(err => console.log(err));
+    });
+
+    //  const updateblog = document.querySelector('a.update');
+    //  updateblog.addEventListener('click', (e) => {
+    //     const endpoint = `/blogs/update/${trashcan.dataset.doc}`;
+    //     fetch(endpoint, {
+    //         method: 'GET',
+    //     })
+    //     .catch(err => {
+    //         console.log('Error in update page');
+    //     })
+    //  })
+
+  </script>
+
+
+</body>
+</html>
